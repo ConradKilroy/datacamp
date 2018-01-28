@@ -104,6 +104,30 @@ plot(1:15, wss, type = "b",
      xlab = "Number of Clusters", 
      ylab = "Within groups sum of squares")
 
+#plot the slope of the scree plot to see the elbow better
+x <- as.data.frame(cbind(c(1:15), wss))
+#x$asdf <- x$V1
+len_x <- dim(x)[1]
+#x[len_x,] - x[len_x - 1,] 
+
+a <- 0
+for (i in len_x:2)
+{
+  y <- (x[i,] - x[i-1,])
+  a <- rbind(a, y)
+}
+a <- a[2:len_x,]
+#remove V1 colum
+a <- within(a, rm(V1))
+a$asdf <- row.names(a)
+
+# Produce a scree plot differential slope
+plot(a$asdf, a$wss, type = "b", 
+     xlab = "Number of Clusters", 
+     ylab = "Slope of Within groups sum of squares")
+
+#now that we know what's the optimal cluster value, use it, in this case its 2
+
 # Select number of clusters
 k <- 2
 
@@ -118,3 +142,4 @@ plot(pokemon[, c("Defense", "Speed")],
      col = km.out$cluster,
      main = paste("k-means clustering of Pokemon with", k, "clusters"),
      xlab = "Defense", ylab = "Speed")
+
