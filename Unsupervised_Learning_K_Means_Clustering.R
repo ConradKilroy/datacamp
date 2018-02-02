@@ -187,3 +187,21 @@ plot(hclust.single, main = "Single")
 #an unbalanced tree is more desirable because pruning an unbalanced tree can result
 #in most observations assigned to one cluster and only a few observations assigned to other clusters. 
 
+
+#######################
+
+#let return to Pokemon data
+#sometimes the date has a high deviation variation spread from the average. At times its necessary to scale the data appropriately.
+
+# View column means
+colMeans(pokemon)
+
+# View column standard deviations
+apply(pokemon, 2, sd)
+
+# Scale the data
+pokemon.scaled <- scale(pokemon)
+
+# Create hierarchical clustering model: hclust.pokemon
+hclust.pokemon <- hclust(dist(pokemon.scaled), method = "complete")
+#notice how standard deviation varies highly around the means(avg), so we scaled it!
