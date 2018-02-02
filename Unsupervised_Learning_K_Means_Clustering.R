@@ -143,3 +143,42 @@ plot(pokemon[, c("Defense", "Speed")],
      main = paste("k-means clustering of Pokemon with", k, "clusters"),
      xlab = "Defense", ylab = "Speed")
 
+#########################
+#Hierarchical clustering
+#######################
+
+#define x
+#x <-
+
+# Create hierarchical clustering model: hclust.out
+hclust.out <- hclust(dist(x))
+
+# Inspect the result
+summary(hclust.out)
+
+############
+#cutting at a height (h) or by number of clusters (k)
+
+# Cut by height
+cutree(hclust.out, h = 7)
+
+# Cut by number of clusters
+cutree(hclust.out, k = 3)
+
+########complete the hcluster by method, automatically#############
+# Cluster using complete linkage: hclust.complete
+hclust.complete <- hclust(dist(x), method = "complete")
+# Cluster using average linkage: hclust.average
+hclust.average <- hclust(dist(x), method = "average")
+# Cluster using single linkage: hclust.single
+hclust.single <- hclust(dist(x), method = "single")
+
+# Plot dendrogram of hclust.complete
+plot(hclust.complete, main = "Complete")
+# Plot dendrogram of hclust.average
+plot(hclust.average, main = "Average")
+# Plot dendrogram of hclust.single
+plot(hclust.single, main = "Single")
+
+
+
