@@ -191,7 +191,7 @@ plot(hclust.single, main = "Single")
 #######################
 
 #let return to Pokemon data
-#sometimes the date has a high deviation variation spread from the average. At times its necessary to scale the data appropriately.
+#sometimes the date has a high deviation variation spread from the average mean. At times its necessary to scale the data appropriately.
 
 # View column means
 colMeans(pokemon)
@@ -199,9 +199,30 @@ colMeans(pokemon)
 # View column standard deviations
 apply(pokemon, 2, sd)
 
-# Scale the data
+# Scale the data!!!!
 pokemon.scaled <- scale(pokemon)
 
 # Create hierarchical clustering model: hclust.pokemon
 hclust.pokemon <- hclust(dist(pokemon.scaled), method = "complete")
 #notice how standard deviation varies highly around the means(avg), so we scaled it!
+
+##################################
+#remember in hieraacle clustering trees, linkages that create the most balance trees are "complete" & "average"
+
+# Apply cutree() to hclust.pokemon: cut.pokemon
+#km.pokemon
+#hclust.pokemon
+
+cut.pokemon <- cutree(hclust.pokemon, 3)
+
+# Compare methods
+table(km.pokemon$cluster, cut.pokemon)
+
+# Looking at the table, it looks like the hierarchical clustering model 
+#assigns most of the observations to cluster 1, while the k-means algorithm 
+#distributes the observations relatively evenly among all clusters. 
+#It's important to note that there's no consensus on which method produces
+#better clusters. The job of the analyst in unsupervised clustering is to 
+#observe the cluster assignments and make a judgment call as to which method 
+#provides more insights into the data. Excellent job! 
+
