@@ -226,3 +226,7 @@ table(km.pokemon$cluster, cut.pokemon)
 #observe the cluster assignments and make a judgment call as to which method 
 #provides more insights into the data. Excellent job! 
 
+#########################################################################################
+
+#dimentionaliy reduction
+#Princle component analysis (PCA)
