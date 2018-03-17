@@ -170,6 +170,8 @@ cutree(hclust.out, k = 3)
 hclust.complete <- hclust(dist(x), method = "complete")
 # Cluster using average linkage: hclust.average
 hclust.average <- hclust(dist(x), method = "average")
+
+
 # Cluster using single linkage: hclust.single
 hclust.single <- hclust(dist(x), method = "single")
 
@@ -230,3 +232,11 @@ table(km.pokemon$cluster, cut.pokemon)
 
 #dimentionaliy reduction
 #Princle component analysis (PCA)
+
+# Perform scaled PCA: pr.out
+pr.out <- prcomp(pokemon, scale=TRUE)
+
+# Inspect model output
+summary(pr.out)
+
+#inthis example, Prinicple component 2 can cover 77% of the data, according to cumulative variance
