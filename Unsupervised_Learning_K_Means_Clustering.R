@@ -62,7 +62,7 @@ for(i in 1:6) {
 #its called a scree plot
 #notice the elbow trend, that's when you've determined the number of clusters.
 
-# Initialize total within sum of squares error: wss
+# Initialize Total_Within_Sum of Squares error: wss
 wss <- 0
 
 #lets run up to 15 clusters
@@ -232,11 +232,82 @@ table(km.pokemon$cluster, cut.pokemon)
 
 #dimentionaliy reduction
 #Princle component analysis (PCA)
+#find linear combination of variable to recreat principle components
+#maintain most variance in data
+#principal componnets are uncorrelated (ie orthogonal to each other)
 
 # Perform scaled PCA: pr.out
-pr.out <- prcomp(pokemon, scale=TRUE)
+pr.out <- prcomp(pokemon, scale=TRUE, center = TRUE)
 
 # Inspect model output
 summary(pr.out)
 
-#inthis example, Prinicple component 2 can cover 77% of the data, according to cumulative variance
+#inthis example, Cumulatively, Prinicple component 1 plus 2 can cover 77% of the data, according to cumulative variance.
+
+
+# Additional results of PCA
+# 
+# PCA models in R produce additional diagnostic and output components:
+#   
+#   center: the column means used to center to the data, or FALSE if the data weren't centered
+#   scale: the column standard deviations used to scale the data, or FALSE if the data weren't scaled
+#   rotation: the directions of the principal component vectors in terms of the original features/variables. This information allows you to define new data in terms of the original principal components
+#   x: the value of each observation in the original dataset projected to the principal components
+# 
+
+pr.out$center
+pr.out$scale
+pr.out$rotation
+pr.out$x
+
+#visualized what you learned
+biplot(pr.out)
+
+pr.var <- pr.out$sdev^2
+pve <- pr.var / sum(pr.var)
+
+
+# Plot variance explained for each principal component
+plot(pve, xlab = "Principal Component",
+     ylab = "Proportion of Variance Explained",
+     ylim = c(0, 1), type = "b")
+
+# Plot cumulative proportion of variance explained
+plot(cumsum(pve), xlab = "Principal Component",
+     ylab = "Cumulative Proportion of Variance Explained",
+     ylim = c(0, 1), type = "b")
+
+####
+#scale the data
+
+#Practical issues: scaling
+
+#You saw in the video that scaling your data before doing PCA changes the results of the 
+# PCA modeling. Here, you will perform PCA with and without scaling, then visualize the 
+# results using biplots.
+
+#Sometimes scaling is appropriate when the variances of the variables are substantially 
+# different. This is commonly the case when variables have different units of measurement, 
+# for example, degrees Fahrenheit (temperature) and miles (distance). Making the decision 
+# to use scaling is an important step in performing a principal component analysis.
+
+# Mean of each variable
+#a new col Total is added to data Pokemon
+colMeans(pokemon)
+
+# Standard deviation of each variable
+apply(pokemon, 2, sd)
+
+# PCA model with scaling: pr.with.scaling
+pr.with.scaling <- prcomp(pokemon, scale=TRUE)
+
+# PCA model without scaling: pr.without.scaling
+pr.without.scaling <- prcomp(pokemon, scale=FALSE)
+
+# Create biplots of both for comparison
+biplot(pr.with.scaling)
+biplot(pr.without.scaling)
+
+# The new Total column contains much more variation, on average, than the other four columns, 
+# so it has a disproportionate effect on the PCA model when scaling is not performed. 
+# After scaling the data, there's a much more even distribution of the loading vectors. 
