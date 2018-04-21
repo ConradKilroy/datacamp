@@ -36,7 +36,7 @@ plot(my_data, col=km.out$cluster)
 plot(my_data, col=km.out$cluster, main = "k-means with 3 clusters", xlab ="", ylab="")
 
 #######
-
+ 
 #run it 6 times, visualize them
 # Set up 2 x 3 plotting grid
 par(mfrow = c(2, 3))
