@@ -5,7 +5,7 @@
 
 #Recall from the video that the first step is to download and prepare the data.
 
-
+ 
 url <- "http://s3.amazonaws.com/assets.datacamp.com/production/course_1903/datasets/WisconsinCancer.csv"
 
 wisc.df <- read.csv(url)
