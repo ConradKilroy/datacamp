@@ -3,6 +3,7 @@
 #source
 #https://www.r-bloggers.com/fitting-a-neural-network-in-r-neuralnet-package/
 #https://www.youtube.com/watch?v=LTg-qP9iGFY
+#https://rpubs.com/julianhatwell/annr
 
 #install.packages('neuralnet')
 
