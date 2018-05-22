@@ -3,7 +3,6 @@
 #source
 #https://www.r-bloggers.com/fitting-a-neural-network-in-r-neuralnet-package/
 #https://www.youtube.com/watch?v=LTg-qP9iGFY
-#https://rpubs.com/julianhatwell/annr
 
 #install.packages('neuralnet')
 
@@ -11,7 +10,7 @@ suppressPackageStartupMessages(library(MASS))
 suppressPackageStartupMessages(library(neuralnet))
 
 
-#set.seed(500)
+set.seed(123)
 Dataframe <- Boston
 help("Boston")
 str(Dataframe)
@@ -22,7 +21,7 @@ str(Dataframe)
 #intital review
 hist(Dataframe$medv)
 dim(Dataframe)
-head(Dataframe,3)
+head(Dataframe,10)
 
 #examine ranges for each variable
 apply(Dataframe,2, range)
@@ -39,11 +38,12 @@ DataFrameScaled <- as.data.frame(
                                       center = minVal, 
                                       scale = maxVal - minVal)
                                 )
-#rand sample index set for training
-ind <- sample(1:nrow(DataFrameScaled), 400)
+#random sample index set for training
+sample_size <- 400
+indices <- sample(1:nrow(DataFrameScaled), sample_size)
 #split for training DF and test DF
-trainDF <- DataFrameScaled[ind,]
-testDF <- DataFrameScaled[-ind,]
+trainDF <- DataFrameScaled[indices,]
+testDF <- DataFrameScaled[-indices,]
 
 
 
@@ -61,7 +61,7 @@ allVarnames <- colnames(DataFrameScaled)
 goalVarName <- "medv"
 #exclude goalname, use the others as predictor variables
 predictorVarNames <- allVarnames[!allVarnames %in% goalVarName]
-predictorVarNames_col_size <- length(predictorVarNames)
+predictorVarNames_col_size <- length(predictorVarNames) #13
 #int this case 13 variabels
 
 #create forumala!
@@ -95,7 +95,8 @@ str(predictions)
 
 #unpacking
 #unscaling_method = (max(Boston$medv) - min(Boston$medv)) + min(Boston$medv)
-unscaling_method = (max(DataFrameScaled$medv) - min(DataFrameScaled$medv)) + min(DataFrameScaled$medv)
+#unscaling_method = (max(DataFrameScaled$medv) - min(DataFrameScaled$medv)) + min(DataFrameScaled$medv)
+unscaling_method = (max(testDF$medv) - min(testDF$medv)) + min(testDF$medv)
 
 predictions.nn <- predictions$net.result * unscaling_method
 actualValues <-              testDF$medv * unscaling_method
