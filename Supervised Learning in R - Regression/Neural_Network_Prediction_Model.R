@@ -71,7 +71,7 @@ predictorVarNames_col_size <- length(predictorVarNames) #13
 #int this case 13 variabels
 
 #create forumala!
-(formula = as.formula(
+(formula.nn = as.formula(
                      paste0(goalVarName, " ~ ", 
                                                 paste0(predictorVarNames,collapse = ' + ')
                             )
@@ -79,7 +79,7 @@ predictorVarNames_col_size <- length(predictorVarNames) #13
 )
 
 
-neuralModel <- neuralnet(formula = formula,
+neuralModel <- neuralnet(formula = formula.nn,
                          data = trainDF,
                          #hidden layers
                          hidden = c(5,3), 
@@ -182,8 +182,9 @@ set.seed(200)
 lm.fit <- glm(medv~.,data=data)
 cv.glm(data,lm.fit,K=10)$delta[1]
 
-
+#--------------------------
 # Neural net cross validation
+#K-fold cross validation
 set.seed(450)
 cv.error <- NULL
 k <- 10
@@ -194,17 +195,19 @@ pbar <- create_progress_bar('text')
 pbar$init(k)
 
 for(i in 1:k){
-  index <- sample(1:nrow(data),round(0.9*nrow(data)))
-  train.cv <- scaled[index,]
-  test.cv <- scaled[-index,]
+  #sample function does the random picking of indexes
+  index <- sample(1:nrow(Dataframe),round(0.9*nrow(Dataframe)))
+  train.cv <- DataFrameScaled[index,]
+  test.cv <- DataFrameScaled[-index,]
   
-  nn <- neuralnet(f,data=train.cv,hidden=c(5,2),linear.output=T)
+  nn <- neuralnet(formula.nn,data=train.cv,hidden=c(5,2),linear.output=T)
   
   pr.nn <- compute(nn,test.cv[,1:13])
-  pr.nn <- pr.nn$net.result*(max(data$medv)-min(data$medv))+min(data$medv)
+  pr.nn <- pr.nn$net.result*unscaling_method
   
-  test.cv.r <- (test.cv$medv)*(max(data$medv)-min(data$medv))+min(data$medv)
+  test.cv.r <- (test.cv$medv)*unscaling_method
   
+  #collect iterations of MSE
   cv.error[i] <- sum((test.cv.r - pr.nn)^2)/nrow(test.cv)
   
   pbar$step()
@@ -212,6 +215,7 @@ for(i in 1:k){
 
 # Average MSE
 mean(cv.error)
+summary(cv.error)
 
 # MSE vector from CV
 cv.error
@@ -222,11 +226,6 @@ boxplot(cv.error,xlab='MSE CV',col='cyan',
         main='CV error (MSE) for NN',horizontal=TRUE)
 
 
-library(caret)
 
-
-#cross validation on NN in R
-
-#K-fold cross validation
 
 #https://www.youtube.com/watch?v=p5rDg4OVBuA
