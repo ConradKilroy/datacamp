@@ -1,3 +1,4 @@
+# See also: http://r-statistics.co/Linear-Regression.html
 # Code a simple one-variable regression
 # 
 # For the first coding exercise, you'll create a formula to define a one-variable modeling task, and then fit a linear model to the data. You are given the rates of male and female unemployment in the United States over several years (Source).
