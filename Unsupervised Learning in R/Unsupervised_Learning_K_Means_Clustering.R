@@ -311,3 +311,7 @@ biplot(pr.without.scaling)
 # The new Total column contains much more variation, on average, than the other four columns, 
 # so it has a disproportionate effect on the PCA model when scaling is not performed. 
 # After scaling the data, there's a much more even distribution of the loading vectors. 
+
+
+#see also PCA Biplot explaination:
+#http://www.datavis.ca/milestones/index.php?query=Kuno%20Ruben%20Gabriel
