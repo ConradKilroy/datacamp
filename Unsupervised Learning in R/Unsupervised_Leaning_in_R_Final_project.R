@@ -239,3 +239,5 @@ table(wisc.pr.hclust.clusters, diagnosis)
 # Compare to k-means and hierarchical
 table(wisc.pr.hclust.clusters, wisc.km$cluster)
 
+#see also PCA explaination of BiPlots
+#http://www.datavis.ca/milestones/index.php?query=Kuno%20Ruben%20Gabriel
