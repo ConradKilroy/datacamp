@@ -42,6 +42,11 @@ my_scales <-list(x=list(relation="free"), y=list(relation="free"))
 featurePlot(x=my_pairs, 
             y=factor_color, plot="density", scales = my_scales)
 
+#yet another Kernel Probability Density Plot!!!!!!!!!!!!!!!!!
+install.packages("GGally")
+library(GGally)
+ggpairs(my_pairs, aes(alpha = 0.4))
+
 ##########################
 #ML caret R model buidling
 
